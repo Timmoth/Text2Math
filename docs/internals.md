@@ -1,10 +1,10 @@
 ## Lexer
 
-[Tokens](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/TokenType.cs) are the fundamental building blocks of a programming language, each serving a distinct purpose and conforming to a specific pattern that can be used to identify it from the input source code. A sequence of characters in the source code that matches a token's pattern is known as a [lexeme](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Token.cs).
+[Tokens](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/TokenType.cs){target="_blank"} are the fundamental building blocks of a programming language, each serving a distinct purpose and conforming to a specific pattern that can be used to identify it from the input source code. A sequence of characters in the source code that matches a token's pattern is known as a [lexeme](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Token.cs){target="_blank"}.
 
-The role of a [lexer (or tokenizer)](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Lexer.cs) is to process the source code and translate it into a sequence of tokens.
+The role of a [lexer (or tokenizer)](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Lexer.cs){target="_blank"} is to process the source code and translate it into a sequence of tokens.
 
-The tokens used in this project are as follows and are defined in the [TokenType](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/TokenType.cs) enum.
+The tokens used in this project are as follows and are defined in the [TokenType](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/TokenType.cs){target="_blank"} enum.
 
 | name   | example |
 |--------|---------|
@@ -27,35 +27,40 @@ The tokens used in this project are as follows and are defined in the [TokenType
 
 
 
-The [lexer class](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Lexer.cs) processes the source code to produce a sequence of tokens. Each call to the `NextToken` method performs the following steps to update the `CurrentToken`:
+The [lexer class](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Lexer.cs){target="_blank"} distills the source code into a sequence of tokens. Each call to the `NextToken` method performs the following steps to update the `CurrentToken`:
 
-- If the lexer has processed the entire source code, it will return an end-of-file (Eof) token.
-- The lexer will skip over any whitespace (' ') it encounters.
+- If the lexer has reached the end of the source code, it will return an end-of-file (Eof) token.
+- The lexer will skip over / ignore any whitespace (' ') it encounters.
 - If the lexer encounters a digit or a '.' character, it will buffer them and return a numeric token.
 - If the lexer encounters a single symbol or a sequence of letters, it will match them to a known token pattern from the table above.
 
+For example given the source code:
+`1.2 + sqrt(2 * pi)`
+The lexer will return the following sequence of tokens:
+number, plus, sqrt, lparen, number, mul, pi, rparen
+
 ## Parser
 
-Our [parser's](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Parser.cs) job is to take the sequence of tokens produced by the lexer and use them to build an Abstract Syntax Tree (AST) which is comprised of nodes, each representing a specific construct from the source code. Once constructed, the AST can be traversed to execute or further process the program.
+Our [parser's](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Parser.cs){target="_blank"} job is to take the sequence of tokens produced by the lexer and use them to build an Abstract Syntax Tree (AST) comprised of nodes, each representing a specific construct from the source code. Once constructed, the AST can be traversed to execute or further process the program.
 
-All AST node can be found [here](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/AstNode.cs).
-
-```
-For the expression 1 + 2:
-
-AdditionNode
-├── NumericNode(1)
-├── NumericNode(2)
-```
+All AST node can be found [here](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/AstNode.cs){target="_blank"}.
 
 ```
-For the expression pi + 2 * 3:
+AST for the expression 1 + 2:
 
-AdditionNode
-├── PiNode
-├── MultiplicationNode
-    ├── NumericNode(2)
-    └── NumericNode(4)
+AdditionNode        evaluate(left + right)
+├── L ─ NumericNode evaluate(1)
+├── R ─ NumericNode evaluate(2)
+```
+
+```
+AST for the expression pi + 2 * 3:
+
+AdditionNode                evaluate(left + right)
+├── L ─ PiNode              evaluate(Math.Pi)
+├── R ─ MultiplicationNode  evaluate(left * right)
+    ├── L ─ NumericNode     evaluate(2)
+    └── R ─ NumericNode     evaluate(4)
 ```
 
 ## Grammar
@@ -97,4 +102,4 @@ An expression consists of a term followed by zero or more instances of a plus (+
 
 ##### Evaluation
 
-In our [implementation](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/AstNode.cs), each node in the AST has an Evaluate method, which when called, returns the result of its operation. For instance, an AdditionNode has two child nodes; when its Evaluate method is called, it will call the Evaluate method on each of the child nodes and then return the sum of their results.
+In our [implementation](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/AstNode.cs){target="_blank"}, each node in the AST has an Evaluate method, which when called, returns the result of its operation. For instance, an AdditionNode has two child nodes; when its Evaluate method is called, it will call the Evaluate method on each of the child nodes and then return the sum of their results.
