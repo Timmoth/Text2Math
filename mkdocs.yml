@@ -1,0 +1,24 @@
+site_name: Text2Math
+site_url: https://timmoth.github.io/Text2Math/
+site_description: Simple mathematical expression evaluator.
+site_author: Timmoth
+repo_url: https://github.com/Timmoth/Text2Math/
+edit_uri: edit/main/docs
+
+theme:
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - csharp
+nav:
+  - Overview ✅: index.md
+  - Internals ✅: internals.md
+  - Releases 📒: releases.md
+  - Support 🛟: support.md
+  - Contributing 🙏: contributing.md
+
+markdown_extensions:
+  - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
