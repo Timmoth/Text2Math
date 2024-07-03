@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<LangVersion>preview</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageId>Text2Math</PackageId>
+		<PackageVersion>8.0.0</PackageVersion>
+		<Authors>Tim Jones</Authors>
+		<Company>Aptacode</Company>
+		<Description>Simple mathematical expression evaluator</Description>
+		<PackageProjectUrl>https://github.com/Timmoth/Text2Math</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/Timmoth/Text2Math</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>Math Expression Interpreter Evaluator</PackageTags>
+		<Title>Text2Math</Title>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<IncludeSymbols>true</IncludeSymbols>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+</Project>
