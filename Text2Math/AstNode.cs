@@ -9,7 +9,7 @@ public abstract record AstNode
     ///     Evaluates the current AST node and returns the result.
     /// </summary>
     /// <returns>The evaluated result.</returns>
-    public abstract double Evaluate();
+    public abstract double Evaluate((string name, double value)[] variables);
 }
 
 /// <summary>
@@ -20,9 +20,9 @@ public abstract record AstNode
 public record MulNode(AstNode Left, AstNode Right) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Left.Evaluate() * Right.Evaluate();
+        return Left.Evaluate(variables) * Right.Evaluate(variables);
     }
 }
 
@@ -34,9 +34,9 @@ public record MulNode(AstNode Left, AstNode Right) : AstNode
 public record ExponentNode(AstNode Left, AstNode Right) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Math.Pow(Left.Evaluate(), Right.Evaluate());
+        return Math.Pow(Left.Evaluate(variables), Right.Evaluate(variables));
     }
 }
 
@@ -48,9 +48,9 @@ public record ExponentNode(AstNode Left, AstNode Right) : AstNode
 public record DivNode(AstNode Left, AstNode Right) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Left.Evaluate() / Right.Evaluate();
+        return Left.Evaluate(variables) / Right.Evaluate(variables);
     }
 }
 
@@ -62,9 +62,9 @@ public record DivNode(AstNode Left, AstNode Right) : AstNode
 public record AddNode(AstNode Left, AstNode Right) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Left.Evaluate() + Right.Evaluate();
+        return Left.Evaluate(variables) + Right.Evaluate(variables);
     }
 }
 
@@ -76,9 +76,9 @@ public record AddNode(AstNode Left, AstNode Right) : AstNode
 public record SubNode(AstNode Left, AstNode Right) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Left.Evaluate() - Right.Evaluate();
+        return Left.Evaluate(variables) - Right.Evaluate(variables);
     }
 }
 
@@ -90,9 +90,9 @@ public record SubNode(AstNode Left, AstNode Right) : AstNode
 public record ModNode(AstNode Left, AstNode Right) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Left.Evaluate() % Right.Evaluate();
+        return Left.Evaluate(variables) % Right.Evaluate(variables);
     }
 }
 
@@ -103,9 +103,30 @@ public record ModNode(AstNode Left, AstNode Right) : AstNode
 public record NumberNode(double Value) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
         return Value;
+    }
+}
+
+/// <summary>
+///     Represents a variable node
+/// </summary>
+/// <param name="Name">Name</param>
+public record VariableNode(string Name) : AstNode
+{
+    /// <inheritdoc />
+    public override double Evaluate((string name, double value)[] variables)
+    {
+        foreach (var (name, value) in variables)
+        {
+            if (name == Name)
+            {
+                return value;
+            }
+        }
+
+        return 0;
     }
 }
 
@@ -115,7 +136,7 @@ public record NumberNode(double Value) : AstNode
 public record PiNode : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
         return Math.PI;
     }
@@ -127,7 +148,7 @@ public record PiNode : AstNode
 public record EulerNode : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
         return Math.E;
     }
@@ -140,9 +161,9 @@ public record EulerNode : AstNode
 public record LogNode(AstNode Child) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Math.Log(Child.Evaluate());
+        return Math.Log(Child.Evaluate(variables));
     }
 }
 
@@ -153,9 +174,9 @@ public record LogNode(AstNode Child) : AstNode
 public record SqrtNode(AstNode Child) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Math.Sqrt(Child.Evaluate());
+        return Math.Sqrt(Child.Evaluate(variables));
     }
 }
 
@@ -166,9 +187,9 @@ public record SqrtNode(AstNode Child) : AstNode
 public record SinNode(AstNode Child) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Math.Sin(Child.Evaluate());
+        return Math.Sin(Child.Evaluate(variables));
     }
 }
 
@@ -179,9 +200,9 @@ public record SinNode(AstNode Child) : AstNode
 public record TanNode(AstNode Child) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Math.Tan(Child.Evaluate());
+        return Math.Tan(Child.Evaluate(variables));
     }
 }
 
@@ -192,9 +213,9 @@ public record TanNode(AstNode Child) : AstNode
 public record CosNode(AstNode Child) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Math.Cos(Child.Evaluate());
+        return Math.Cos(Child.Evaluate(variables));
     }
 }
 
@@ -205,9 +226,9 @@ public record CosNode(AstNode Child) : AstNode
 public record PlusNode(AstNode Child) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return Child.Evaluate();
+        return Child.Evaluate(variables);
     }
 }
 
@@ -218,8 +239,8 @@ public record PlusNode(AstNode Child) : AstNode
 public record MinusNode(AstNode Child) : AstNode
 {
     /// <inheritdoc />
-    public override double Evaluate()
+    public override double Evaluate((string name, double value)[] variables)
     {
-        return -Child.Evaluate();
+        return -Child.Evaluate(variables);
     }
 }

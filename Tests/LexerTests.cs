@@ -8,6 +8,7 @@ public class LexerTests
     [Theory]
     [InlineData("1", new[] { TokenType.Number, TokenType.Eof })]
     [InlineData(" 1 + 2 ", new[] { TokenType.Number, TokenType.Plus, TokenType.Number, TokenType.Eof })]
+    [InlineData(" 1 + x ", new[] { TokenType.Number, TokenType.Plus, TokenType.Variable, TokenType.Eof })]
     [InlineData(" 1.23 - log3 ",
         new[] { TokenType.Number, TokenType.Minus, TokenType.Log, TokenType.Number, TokenType.Eof })]
     [InlineData("sqrt(e * pi) ",
@@ -103,6 +104,8 @@ public class LexerTests
     [InlineData("sin", TokenType.Sin)]
     [InlineData("cos", TokenType.Cos)]
     [InlineData("tan", TokenType.Tan)]
+    [InlineData("x", TokenType.Variable)]
+    [InlineData("testvar", TokenType.Variable)]
     public void MapKeyword_Returns_Correct_Token(string input, TokenType expected)
     {
         // Given
@@ -113,17 +116,5 @@ public class LexerTests
 
         // Then
         actual.Should().Be(expected);
-    }
-
-    [Fact]
-    public void MapKeyword_Throws_Exception()
-    {
-        // Given
-        var lexer = new Lexer("");
-
-        // When
-        // Then
-        var exception = Assert.Throws<Exception>(() => lexer.MapKeyword("invalid"));
-        exception.Message.Should().Be("Unrecognized key word: 'invalid'");
     }
 }

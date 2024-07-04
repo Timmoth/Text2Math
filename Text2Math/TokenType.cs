@@ -22,6 +22,7 @@ public enum TokenType
     Tan,
     Pi,
     Euler,
+    Variable,
     Eof
 #pragma warning restore CS1591
 }

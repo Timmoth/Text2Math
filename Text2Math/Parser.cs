@@ -120,6 +120,9 @@ public static class Parser
             case TokenType.Number:
                 lexer.NextToken();
                 return new NumberNode(double.Parse(lexer.Characters.Slice(token.Start, token.Length)));
+            case TokenType.Variable:
+                lexer.NextToken();
+                return new VariableNode(lexer.Characters.Slice(token.Start, token.Length).ToString());
             case TokenType.Pi:
                 lexer.NextToken();
                 return new PiNode();
@@ -142,9 +145,10 @@ public static class Parser
     ///     Parses and evaluates the given mathematical expression
     /// </summary>
     /// <param name="input"></param>
+    /// <param name="variables"></param>
     /// <returns></returns>
-    public static double Evaluate(this string input)
+    public static double Evaluate(this string input, params (string name, double value)[] variables)
     {
-        return Parse(input).Evaluate();
+        return Parse(input).Evaluate(variables);
     }
 }

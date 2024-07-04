@@ -89,7 +89,7 @@ public class Lexer
 
         if (token.SequenceEqual(CosKeyword.AsSpan())) return TokenType.Cos;
 
-        throw new Exception($"Unrecognized key word: '{token}'");
+        return TokenType.Variable;
     }
 
     /// <summary>

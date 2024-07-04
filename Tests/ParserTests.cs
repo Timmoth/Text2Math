@@ -40,6 +40,7 @@ public class ParserTests
     [InlineData("sqrt 2", typeof(SqrtNode))]
     [InlineData("pi", typeof(PiNode))]
     [InlineData("e", typeof(EulerNode))]
+    [InlineData("x", typeof(VariableNode))]
     [InlineData("(pi)", typeof(PiNode))]
     public void Term_Returns_CorrectNodeType(string input, Type type)
     {
@@ -65,6 +66,7 @@ public class ParserTests
     [InlineData("sqrt 2", typeof(SqrtNode))]
     [InlineData("pi", typeof(PiNode))]
     [InlineData("e", typeof(EulerNode))]
+    [InlineData("x", typeof(VariableNode))]
     [InlineData("(pi)", typeof(PiNode))]
     public void Factor_Returns_CorrectNodeType(string input, Type type)
     {
