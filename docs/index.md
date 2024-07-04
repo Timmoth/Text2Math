@@ -10,6 +10,14 @@ factor       : number | log | sin | cos | tan | sqrt | plus | minus | pi | e | l
 
 ```
 
+## Language
+```
+expression   : term ((plus | minus ) term)*
+term         : factor((mul | div | caret | mod) factor)*
+factor       : number | variable | log | sin | cos | tan | sqrt | plus | minus | pi | e | lparen expression rparen
+
+```
+
 | Name              | Description                                                | Examples                       |
 |-------------------|------------------------------------------------------------|--------------------------------|
 | number            | double precision floating point number                     | "1.23", ".23", "4", "-1", "+2" |
@@ -26,11 +34,12 @@ factor       : number | log | sin | cos | tan | sqrt | plus | minus | pi | e | l
 | tangent           | Tangent of an angle (in radians)                           | "tan 2", "tan(pi/2)            |
 | pi                | The mathematical constant π (approximately 3.14159)        | "pi"                           |
 | euler             | The mathematical constant e (approximately 2.71828)        | "e"                            |
+| variable          | A named value passed in externally during evaluation       | "x", "testvar"                 |
 
 ## Usage
 
 ``` cs
-var result = "sqrt(3^2 + (sin(3) / cos(3))^2) + log(e^3)".Evaluate()
+var result = "sqrt(x^2 + (sin(x) / cos(x))^2) + log(e^y)".Evaluate(("x", 2), ("y", 3))
 ```
 
 ## Benchmarks

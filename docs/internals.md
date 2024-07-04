@@ -6,25 +6,25 @@ The role of a [lexer (or tokenizer)](https://github.com/Timmoth/Text2Math/blob/m
 
 The tokens used in this project are as follows and are defined in the [TokenType](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/TokenType.cs){target="_blank"} enum.
 
-| name   | example |
-|--------|---------|
-| number | 1.2     |
-| plus   | +       |
-| minus  | -       |
-| mul    | *       |
-| div    | /       |
-| mod    | %       |
-| lparen | (       |
-| rparen | )       |
-| caret  | ^       |
-| log    | log     |
-| pi     | pi      |
-| euler  | e       |
-| sqrt   | sqrt    |
-| sin    | sin     |
-| cos    | cos     |
-| tan    | tan     |
-
+| name     | example |
+|----------|---------|
+| number   | 1.2     |
+| plus     | +       |
+| minus    | -       |
+| mul      | *       |
+| div      | /       |
+| mod      | %       |
+| lparen   | (       |
+| rparen   | )       |
+| caret    | ^       |
+| log      | log     |
+| pi       | pi      |
+| euler    | e       |
+| sqrt     | sqrt    |
+| sin      | sin     |
+| cos      | cos     |
+| tan      | tan     |
+| variable | testvar |
 
 
 The [lexer class](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Lexer.cs){target="_blank"} distills the source code into a sequence of tokens. Each call to the `NextToken` method performs the following steps to update the `CurrentToken`:
@@ -69,7 +69,7 @@ The grammar rules define how expressions are structured in the language:
 
 ```
 term : factor ((mul | div | caret | mod) factor)*
-factor : number | log | sin | cos | tan | sqrt | plus | minus | pi | e | lparen expression rparen
+factor : number | variable | log | sin | cos | tan | sqrt | plus | minus | pi | e | lparen expression rparen
 expression : term ((plus | minus) term)*
 ```
 
@@ -84,6 +84,7 @@ A term consists of a factor followed by zero or more instances of a multiplicati
 `factor : number | log | sin | cos | tan | sqrt | plus | minus | pi | e | lparen expression rparen`
 
 - A number (e.g., 3, 4.5)
+- A variable (e.g., x, testvar)
 - A log function (e.g., log(10))
 - A sin function (e.g., sin(pi/2))
 - A cos function (e.g., cos(0))
@@ -102,4 +103,4 @@ An expression consists of a term followed by zero or more instances of a plus (+
 
 ##### Evaluation
 
-In our [implementation](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/AstNode.cs){target="_blank"}, each node in the AST has an Evaluate method, which when called, returns the result of its operation. For instance, an AdditionNode has two child nodes; when its Evaluate method is called, it will call the Evaluate method on each of the child nodes and then return the sum of their results.
+In our [implementation](https://github.com/Timmoth/Text2Math/blob/main/Text2Math/AstNode.cs){target="_blank"}, each node in the AST has an Evaluate method, which takes an array of variable values and when called, returns the result of its operation. For instance, an AdditionNode has two child nodes; when its Evaluate method is called, it will call the Evaluate method on each of the child nodes passing down the variable array and then return the sum of their results.
