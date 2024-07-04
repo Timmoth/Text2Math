@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="Timmoth" /><link rel="canonical" href="https://timmoth.github.io/Text2Math/internals/" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Internals ✅ - Text2Math</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Internals \u2705";
+        var mkdocs_page_input_path = "internals.md";
+        var mkdocs_page_url = "/Text2Math/internals/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/csharp.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Text2Math
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Overview ✅</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Internals ✅</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../releases/">Releases 📒</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../support/">Support 🛟</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../contributing/">Contributing 🙏</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Text2Math</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Internals ✅</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Timmoth/Text2Math/edit/main/docs/internals.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h2 id="lexer">Lexer</h2>
+<p><a href="https://github.com/Timmoth/Text2Math/blob/main/Text2Math/TokenType.cs" target="_blank">Tokens</a> are the fundamental building blocks of a programming language, each serving a distinct purpose and conforming to a specific pattern that can be used to identify it from the input source code. A sequence of characters in the source code that matches a token's pattern is known as a <a href="https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Token.cs" target="_blank">lexeme</a>.</p>
+<p>The role of a <a href="https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Lexer.cs" target="_blank">lexer (or tokenizer)</a> is to process the source code and translate it into a sequence of tokens.</p>
+<p>The tokens used in this project are as follows and are defined in the <a href="https://github.com/Timmoth/Text2Math/blob/main/Text2Math/TokenType.cs" target="_blank">TokenType</a> enum.</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>number</td>
+<td>1.2</td>
+</tr>
+<tr>
+<td>plus</td>
+<td>+</td>
+</tr>
+<tr>
+<td>minus</td>
+<td>-</td>
+</tr>
+<tr>
+<td>mul</td>
+<td>*</td>
+</tr>
+<tr>
+<td>div</td>
+<td>/</td>
+</tr>
+<tr>
+<td>mod</td>
+<td>%</td>
+</tr>
+<tr>
+<td>lparen</td>
+<td>(</td>
+</tr>
+<tr>
+<td>rparen</td>
+<td>)</td>
+</tr>
+<tr>
+<td>caret</td>
+<td>^</td>
+</tr>
+<tr>
+<td>log</td>
+<td>log</td>
+</tr>
+<tr>
+<td>pi</td>
+<td>pi</td>
+</tr>
+<tr>
+<td>euler</td>
+<td>e</td>
+</tr>
+<tr>
+<td>sqrt</td>
+<td>sqrt</td>
+</tr>
+<tr>
+<td>sin</td>
+<td>sin</td>
+</tr>
+<tr>
+<td>cos</td>
+<td>cos</td>
+</tr>
+<tr>
+<td>tan</td>
+<td>tan</td>
+</tr>
+<tr>
+<td>variable</td>
+<td>testvar</td>
+</tr>
+</tbody>
+</table>
+<p>The <a href="https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Lexer.cs" target="_blank">lexer class</a> distills the source code into a sequence of tokens. Each call to the <code>NextToken</code> method performs the following steps to update the <code>CurrentToken</code>:</p>
+<ul>
+<li>If the lexer has reached the end of the source code, it will return an end-of-file (Eof) token.</li>
+<li>The lexer will skip over / ignore any whitespace (' ') it encounters.</li>
+<li>If the lexer encounters a digit or a '.' character, it will buffer them and return a numeric token.</li>
+<li>If the lexer encounters a single symbol or a sequence of letters, it will match them to a known token pattern from the table above.</li>
+</ul>
+<p>For example given the source code:
+<code>1.2 + sqrt(2 * pi)</code>
+The lexer will return the following sequence of tokens:
+number, plus, sqrt, lparen, number, mul, pi, rparen</p>
+<h2 id="parser">Parser</h2>
+<p>Our <a href="https://github.com/Timmoth/Text2Math/blob/main/Text2Math/Parser.cs" target="_blank">parser's</a> job is to take the sequence of tokens produced by the lexer and use them to build an Abstract Syntax Tree (AST) comprised of nodes, each representing a specific construct from the source code. Once constructed, the AST can be traversed to execute or further process the program.</p>
+<p>All AST node can be found <a href="https://github.com/Timmoth/Text2Math/blob/main/Text2Math/AstNode.cs" target="_blank">here</a>.</p>
+<div class="highlight"><pre><span></span><code>AST for the expression 1 + 2:
+
+AdditionNode        evaluate(left + right)
+├── L ─ NumericNode evaluate(1)
+├── R ─ NumericNode evaluate(2)
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>AST for the expression pi + 2 * 3:
+
+AdditionNode                evaluate(left + right)
+├── L ─ PiNode              evaluate(Math.Pi)
+├── R ─ MultiplicationNode  evaluate(left * right)
+    ├── L ─ NumericNode     evaluate(2)
+    └── R ─ NumericNode     evaluate(4)
+</code></pre></div>
+<h2 id="grammar">Grammar</h2>
+<p>The grammar rules define how expressions are structured in the language:</p>
+<div class="highlight"><pre><span></span><code>term : factor ((mul | div | caret | mod) factor)*
+factor : number | variable | log | sin | cos | tan | sqrt | plus | minus | pi | e | lparen expression rparen
+expression : term ((plus | minus) term)*
+</code></pre></div>
+<h5 id="term">Term</h5>
+<p><code>term : factor ((mul | div | caret | mod) factor)*</code></p>
+<p>A term consists of a factor followed by zero or more instances of a multiplication (*), division (/), exponentiation (^), or modulo (%) operator and another factor.</p>
+<h5 id="factor">Factor</h5>
+<p><code>factor : number | log | sin | cos | tan | sqrt | plus | minus | pi | e | lparen expression rparen</code></p>
+<ul>
+<li>A number (e.g., 3, 4.5)</li>
+<li>A variable (e.g., x, testvar)</li>
+<li>A log function (e.g., log(10))</li>
+<li>A sin function (e.g., sin(pi/2))</li>
+<li>A cos function (e.g., cos(0))</li>
+<li>A tan function (e.g., tan(pi/4))</li>
+<li>A sqrt function (e.g., sqrt(4))</li>
+<li>A unary plus (+) indicating a positive number (e.g., +3)</li>
+<li>A unary minus (-) indicating a negative number (e.g., -5)</li>
+<li>The mathematical constants pi or e</li>
+<li>An expression enclosed in parentheses (lparen expression rparen)</li>
+</ul>
+<h5 id="expression">Expression</h5>
+<p><code>expression : term ((plus | minus) term)*</code></p>
+<p>An expression consists of a term followed by zero or more instances of a plus (+) or minus (-) operator and another term.</p>
+<h5 id="evaluation">Evaluation</h5>
+<p>In our <a href="https://github.com/Timmoth/Text2Math/blob/main/Text2Math/AstNode.cs" target="_blank">implementation</a>, each node in the AST has an Evaluate method, which takes an array of variable values and when called, returns the result of its operation. For instance, an AdditionNode has two child nodes; when its Evaluate method is called, it will call the Evaluate method on each of the child nodes passing down the variable array and then return the sum of their results.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Overview ✅"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../releases/" class="btn btn-neutral float-right" title="Releases 📒">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Timmoth/Text2Math/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../releases/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="Simple mathematical expression evaluator." /><meta name="author" content="Timmoth" /><link rel="canonical" href="https://timmoth.github.io/Text2Math/" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Text2Math</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Overview \u2705";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = "/Text2Math/";
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/csharp.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> Text2Math
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Overview ✅</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#language">Language</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#language_1">Language</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#benchmarks">Benchmarks</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#notes">Notes</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="internals/">Internals ✅</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="releases/">Releases 📒</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="support/">Support 🛟</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="contributing/">Contributing 🙏</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">Text2Math</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Overview ✅</li>
+    <li class="wy-breadcrumbs-aside">
+          <a href="https://github.com/Timmoth/Text2Math/edit/main/docs/index.md" class="icon icon-github"> Edit on GitHub</a>
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="text2math">Text2Math</h1>
+<p>Contains a well tested simple mathematical expression evaluator.</p>
+<h2 id="language">Language</h2>
+<div class="highlight"><pre><span></span><code>expression   : term ((plus | minus ) term)*
+term         : factor((mul | div | caret | mod) factor)*
+factor       : number | log | sin | cos | tan | sqrt | plus | minus | pi | e | lparen expression rparen
+</code></pre></div>
+<h2 id="language_1">Language</h2>
+<div class="highlight"><pre><span></span><code>expression   : term ((plus | minus ) term)*
+term         : factor((mul | div | caret | mod) factor)*
+factor       : number | variable | log | sin | cos | tan | sqrt | plus | minus | pi | e | lparen expression rparen
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>number</td>
+<td>double precision floating point number</td>
+<td>"1.23", ".23", "4", "-1", "+2"</td>
+</tr>
+<tr>
+<td>parentheses</td>
+<td>Grouping expressions to enforce precedence in calculations</td>
+<td>"(1+2) / 3"</td>
+</tr>
+<tr>
+<td>multiplication</td>
+<td>Multiplication of two numbers</td>
+<td>"1 * 2"</td>
+</tr>
+<tr>
+<td>division</td>
+<td>Division of one number by another</td>
+<td>"1 / 2"</td>
+</tr>
+<tr>
+<td>addition</td>
+<td>Addition of two numbers</td>
+<td>"1 + 2"</td>
+</tr>
+<tr>
+<td>subtraction</td>
+<td>Subtraction of one number from another</td>
+<td>"1 - 2"</td>
+</tr>
+<tr>
+<td>exponent</td>
+<td>Raising a number to the power of another number</td>
+<td>"2 ^ 2"</td>
+</tr>
+<tr>
+<td>natural logarithm</td>
+<td>Natural logarithm (base e) of a number</td>
+<td>"log 2", "log(pi/2)</td>
+</tr>
+<tr>
+<td>square root</td>
+<td>Square root of a number</td>
+<td>"sqrt 2", "sqrt(pi/2)</td>
+</tr>
+<tr>
+<td>sine</td>
+<td>Sine of an angle (in radians)</td>
+<td>"sin 2", "sin(pi/2)</td>
+</tr>
+<tr>
+<td>cosine</td>
+<td>Cosine of an angle (in radians)</td>
+<td>"cos 2", "cos(pi/2)</td>
+</tr>
+<tr>
+<td>tangent</td>
+<td>Tangent of an angle (in radians)</td>
+<td>"tan 2", "tan(pi/2)</td>
+</tr>
+<tr>
+<td>pi</td>
+<td>The mathematical constant π (approximately 3.14159)</td>
+<td>"pi"</td>
+</tr>
+<tr>
+<td>euler</td>
+<td>The mathematical constant e (approximately 2.71828)</td>
+<td>"e"</td>
+</tr>
+<tr>
+<td>variable</td>
+<td>A named value passed in externally during evaluation</td>
+<td>"x", "testvar"</td>
+</tr>
+</tbody>
+</table>
+<h2 id="usage">Usage</h2>
+<div class="highlight"><pre><span></span><code><span class="kt">var</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;sqrt(x^2 + (sin(x) / cos(x))^2) + log(e^y)&quot;</span><span class="p">.</span><span class="n">Evaluate</span><span class="p">((</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">))</span>
+</code></pre></div>
+<h2 id="benchmarks">Benchmarks</h2>
+<p>Benchmark Expression
+<div class="highlight"><pre><span></span><code>sqrt(.4 ^ 2) - (4 * tan 5 - cos(-2)) / sin(e^4) + log(pi - 1.2)
+</code></pre></div>
+Benchmark Results</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th style="text-align: right;">Mean</th>
+<th style="text-align: right;">Error</th>
+<th style="text-align: right;">StdDev</th>
+<th style="text-align: right;">Gen0</th>
+<th style="text-align: right;">Allocated</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tokenization</td>
+<td style="text-align: right;">282.2 ns</td>
+<td style="text-align: right;">5.32 ns</td>
+<td style="text-align: right;">5.47 ns</td>
+<td style="text-align: right;">0.0048</td>
+<td style="text-align: right;">40 B</td>
+</tr>
+<tr>
+<td>Tokenization + Parsing</td>
+<td style="text-align: right;">710.9 ns</td>
+<td style="text-align: right;">13.44 ns</td>
+<td style="text-align: right;">14.38 ns</td>
+<td style="text-align: right;">0.0782</td>
+<td style="text-align: right;">656 B</td>
+</tr>
+<tr>
+<td>Tokenization + Parsing + Evaluation</td>
+<td style="text-align: right;">817.0 ns</td>
+<td style="text-align: right;">14.31 ns</td>
+<td style="text-align: right;">14.69 ns</td>
+<td style="text-align: right;">0.0782</td>
+<td style="text-align: right;">656 B</td>
+</tr>
+</tbody>
+</table>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>I've made the library as extensible as possible, it shouldn't be too difficult to add aditional functions - PR's are welcome!</li>
+<li>I've tried to make the library as efficient as possible by using readonly spans to keep memory allocation down</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="internals/" class="btn btn-neutral float-right" title="Internals ✅">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+        <span>
+          <a href="https://github.com/Timmoth/Text2Math/" class="fa fa-github" style="color: #fcfcfc"> GitHub</a>
+        </span>
+    
+    
+    
+      <span><a href="internals/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.0
+Build Date UTC : 2024-07-04 08:00:58.764687+00:00
+-->
